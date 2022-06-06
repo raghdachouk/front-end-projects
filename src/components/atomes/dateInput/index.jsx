@@ -1,9 +1,9 @@
-import { format } from "date-fns";
 import { useRef, useState } from "react";
 import CalenderIcon from "../icons/calender";
 import { DateInputWrapper } from "./dateInput.styles";
 
 const DateInput = ({ value, handleSetDate, name, placeholder }) => {
+  console.log("value: ", value);
   const [typeInput, setTypeInput] = useState("text");
   const ref = useRef();
 
@@ -23,7 +23,7 @@ const DateInput = ({ value, handleSetDate, name, placeholder }) => {
         onChange={(e) => handleSetDate(e.target.value)}
         name={name}
         id={name}
-        value={value ? format(new Date(value), "yyyy-MM-dd") : ""}
+        value={value || ""}
         min="2021-01-01"
         max="2021-12-31"
       />

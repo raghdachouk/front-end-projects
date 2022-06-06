@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 
 import DateInput from "../../components/atomes/dateInput";
@@ -44,8 +45,12 @@ const Home = () => {
       const response = await getReport({
         gatewayId: input?.gatewayId === "all" ? "" : input?.gatewayId,
         projectId: input?.projectId === "all" ? "" : input?.projectId,
-        from: input?.startDate || "2021-01-01",
-        to: input?.endDate || "2021-12-31",
+        from: input?.startDate
+          ? format(new Date(input?.startDate), "yyyy-MM-dd")
+          : "2021-01-01",
+        to: input?.endDate
+          ? format(new Date(input?.endDate), "yyyy-MM-dd")
+          : "2021-12-31",
       });
 
       const finalData = getDataProject({

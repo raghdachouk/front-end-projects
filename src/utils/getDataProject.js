@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import groupBy from "lodash.groupby";
 import { getGatewayName, getProjectName } from "./getName";
 
@@ -22,15 +23,24 @@ export const getDataProject = ({
       };
     });
     const total = details.reduce((sum, el) => sum + el.amount, 0);
+    const sortedDates = details.sort(
+      (first, second) =>
+        new Date(first.date).getTime() - new Date(second.date).getTime()
+    );
+
     acc.push({
       name:
         grouped === "projectId"
           ? getProjectName(projects, key)
           : getGatewayName(gateways, key),
-      details,
+      details: sortedDates.map(({ date, ...rest }) => ({
+        ...rest,
+        date: format(new Date(date), "dd-MM-yyyy"),
+      })),
       total: total.toFixed(3),
     });
     return acc;
   }, []);
+
   return finalData;
 };
